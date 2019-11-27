@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}注册账号{% endblock %}
+{% block content %}
+<h1>注册账号</h1>
+<p>请输入正确的信息：</p>
+<form action="." method="post">
+    {{ user_form.as_p }}
+    {% csrf_token %}
+     <input type="submit" value="创建账号">
+</form>
+{% endblock %}

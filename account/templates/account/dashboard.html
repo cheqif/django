@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block title %}仪表盘{% endblock %}
+
+{% block content %}
+  <p>你可以 <a href="{% url "account:edit" %}">修改个人信息</a> 或 <a href="{% url "account:password_change" %}">修改密码</a>.</p>
+{% endblock %}

@@ -1,0 +1,15 @@
+<div class="pagination">
+    <span class="step-links">
+        {% if questions_list.has_previous %}
+            <a href="?page=1">&laquo; 首页</a>
+            <a href="?page={{ questions_list.previous_page_number  }}">下一页</a>
+        {% endif %}
+        <span class="current">
+            第 {{ questions_list.number }}页共{{ questions_list.paginator.num_pages }}页
+        </span>
+        {% if questions_list.has_next %}
+            <a href="?page={{ questions_list.next_page_number  }}">下一页</a>
+            <a href="?page={{ questions_list.paginator.num_pages }}">末页 &raquo;</a>
+        {% endif %}
+    </span>
+</div>

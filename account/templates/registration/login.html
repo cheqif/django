@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}登陆{% endblock %}
+{% block content %}
+<h1>登陆</h1>
+{% if form.errors %}
+    <p>
+        用户名或密码错误，请重试！
+    </p>
+    {% else %}
+    <p>
+    请登陆：
+    </p>
+    {% endif %}
+    <div class="glyphicon-log-in">
+    <form action="{% url 'account:login' %}" method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="hidden" name="下一个" value="{{ next }}">
+        <p><input type="submit" value="登陆"></p>
+    </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}投票详情页{% endblock %}
+
+{% load static %}
+<form class="form" action="{% url 'polls:index' %}" method="post">
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+{% if question_list %}
+    <p>可投票问题列表</p>
+    <ul>
+    {% block content %}
+    {% for question in question_list %}
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+        {% include "polls/pagination.html" with page=questions %}
+    {% endblock %}
+    </ul>
+{% else %}
+    <p>未找到任何投票.</p>
+{% endif %}
+</form>

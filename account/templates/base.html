@@ -1,0 +1,48 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+</head>
+<body>
+    <div id="header">
+        <span class="logo">网站管理系统</span>
+         {% if request.user.is_authenticated %}
+            <ul class="menu">
+                <li {% if section == "dashboard" %} class="selected" {% endif %}>
+                    <a href="{% url "account:dashboard" %}" >回到首页</a>
+                </li>
+                <li {% if section == "images" %} class="selected" {% endif %}>
+                    <a href="{% url "polls:list" %}" >投票系统</a>
+                </li>
+                 <li {% if section == "people" %} class="selected" {% endif %}>
+                    <a href="http://127.0.0.1:8000/admin">后台管理</a>
+                </li>
+            </ul>
+        {% endif %}
+    <span class="user">
+        {% if request.user.is_authenticated %}
+            你好 {{ request.user.username }},
+            <a href="{% url "account:logout" %}">退出登陆</a>
+        {% else %}
+            <a href="{% url "account:login" %}">登陆</a>
+        {% endif %}
+    </span>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+              {{ message|safe }}
+               <a href="#" class="close">x</a>
+            </li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

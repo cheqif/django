@@ -1,0 +1,15 @@
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_messages %}
+
+<html>
+<h1>登陆界面</h1>
+
+<form class="form" action="{% url 'polls:login' %}" method="post">
+    {%  csrf_token %}
+    <label class="label-default">用户名：</label><input type="text" name="name" class="form-signin"><br>
+    <label class="label-default">密  码：   </label><input type="password" name="pwd" class="form-signin"><br>
+    <input type="submit" value="登陆" class="button">
+</form>
+
+</html>
