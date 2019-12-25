@@ -7,7 +7,7 @@
 </head>
 <body>
     <div id="header">
-        <span class="logo">网站管理系统</span>
+        <span class="logo">{{ polls_site_name }}</span>
          {% if request.user.is_authenticated %}
             <ul class="menu">
                 <li {% if section == "dashboard" %} class="selected" {% endif %}>
@@ -16,9 +16,11 @@
                 <li {% if section == "images" %} class="selected" {% endif %}>
                     <a href="{% url "polls:list" %}" >投票系统</a>
                 </li>
+                {% if request.user.is_staff %}
                 <li {% if section == "people" %} class="selected" {% endif %}>
-                    <a href="http://127.0.0.1:8000/admin">后台管理</a>
+                    <a href="/admin">后台管理</a>
                 </li>
+                {% endif %}
             </ul>
         {% endif %}
     <span class="user">

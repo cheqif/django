@@ -3,7 +3,7 @@
 
 {% load static %}
 <form class="form" action="{% url 'polls:index' %}" method="post">
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
 {% if question_list %}
     <p>可投票问题列表</p>
     <ul>

@@ -2,14 +2,21 @@
 {% block title %}投票详情页{% endblock %}
 {% load static %}
 <form class="form" action="{% url 'polls:list' %}" method="post">
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
 {% if questions_list %}
     <ul>
     {% block content %}
         <h1>可投票问题列表</h1>
+        <table width="1000" border="1px solid #00AA88" cellspacing="0" cellpadding="1"><tr><td><label>问题</label></td><td><label>投票起始时间</label></td><td><label>投票结束时间</label></td><tr>
     {% for question in questions_list %}
+         <tr>
+        <td>
         <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        </td>
+             <td><label>{{ question.start_date }}</label></td>
+             <td><label>{{ question.end_date }}</label></td></tr>
     {% endfor %}
+        </table>
         {% include "polls/pagination.html" with page=questions_list %}
     {% endblock %}
     </ul>

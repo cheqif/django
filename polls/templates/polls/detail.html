@@ -8,10 +8,16 @@
 <form action="{% url 'polls:vote' question.id %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="userid"  value={{ request.user.id }}>
-{% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-{% endfor %}
+    <table>
+    {% for choice in question.choice_set.all %}
+
+    <tr>
+        <td><input type="checkbox" name="check_box_list" id="choice{{ forloop.counter }}" value="{{ choice.id }}"></td>
+        <td><label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label></td>
+    </tr>
+    {% endfor %}
+    </table>
 <input type="submit" value="投票">
 </form>
+    <a href="{% url 'polls:results' question.id %}">查看投票结果</a>
 {% endblock %}
