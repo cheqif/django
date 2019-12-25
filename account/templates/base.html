@@ -7,17 +7,17 @@
 </head>
 <body>
     <div id="header">
-        <span class="logo">网站管理系统</span>
+        <span class="logo">{{ account_site_name }}</span>
          {% if request.user.is_authenticated %}
             <ul class="menu">
                 <li {% if section == "dashboard" %} class="selected" {% endif %}>
-                    <a href="{% url "account:dashboard" %}" >回到首页</a>
+                    <a href="{% url "account:dashboard" %}" >回到首页222</a>
                 </li>
                 <li {% if section == "images" %} class="selected" {% endif %}>
-                    <a href="{% url "polls:list" %}" >投票系统</a>
+                    <a href="{% url "polls:list" %}" >投票系统333</a>
                 </li>
-                 <li {% if section == "people" %} class="selected" {% endif %}>
-                    <a href="http://127.0.0.1:8000/admin">后台管理</a>
+                <li {% if section == "people" %} class="selected" {% endif %}>
+                    <a href="/admin">后台管理111</a>
                 </li>
             </ul>
         {% endif %}

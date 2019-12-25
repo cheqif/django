@@ -5,6 +5,8 @@ from .forms import LoginForm, UserRegistrationForm,  UserEditForm, ProfileEditFo
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from django.contrib import messages
+from django.conf import settings
+
 
 @login_required
 def dashboard(request):
@@ -51,7 +53,7 @@ def register(request):
             return render(request, 'account/register.html', { 'user_form': user_form })
     else:
         user_form = UserRegistrationForm()
-        return render(request,'account/register.html',{ 'user_form': user_form })
+        return render(request,'account/register.html', { 'user_form': user_form })
 
 
 @login_required
@@ -77,3 +79,9 @@ def edit(request):
                   'account/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+
+
+def account_settings(request):
+    return {
+        'account_site_name': settings.SITE_NAME,
+    }
