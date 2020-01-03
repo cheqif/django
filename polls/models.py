@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 
 
 class Question(models.Model):
-    question_text = models.CharField(max_length=200, verbose_name="问题")
+    question_text = models.CharField(max_length=2000, verbose_name="问题")
     pub_date = models.DateTimeField(verbose_name="发布时间",default=timezone.now())
     is_active_CHOICES = (('0', '失效'), ('1', '有效'))
     is_active = models.CharField(max_length=10,choices=is_active_CHOICES,default='1', verbose_name="是否有效")
@@ -52,7 +52,7 @@ class Question(models.Model):
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200,verbose_name="选项")
+    choice_text = models.CharField(max_length=2000,verbose_name="选项")
     votes = models.IntegerField(default=0, verbose_name="票数")
 
     def __str__(self):

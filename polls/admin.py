@@ -1,10 +1,55 @@
 from django.contrib import admin
-from .models import Choice, Question, QuestionUser
+from .models import Choice, Question, QuestionUser,UserChoice
 
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
     extra = 3
+
+    def has_change_permission(self, request, obj=None):
+        # 禁用修改按钮
+        if request.user.is_superuser:
+            return True
+        else:
+            if obj is not None:
+                qid = obj.pk
+                qs = UserChoice.objects.filter(question_id=qid)
+                if qs.count() == 0:
+                    return True
+                else:
+                    return False
+            else:
+                return True
+
+    def has_delete_permission(self, request, obj=None):
+        # 禁用修改按钮
+        if request.user.is_superuser:
+            return True
+        else:
+            if obj is not None:
+                qid = obj.pk
+                qs = UserChoice.objects.filter(question_id=qid)
+                if qs.count() == 0:
+                    return True
+                else:
+                    return False
+            else:
+                return True
+
+    def has_add_permission(self, request, obj=None):
+        # 禁用修改按钮
+        if request.user.is_superuser:
+            return True
+        else:
+            if obj is not None:
+                qid = obj.pk
+                qs = UserChoice.objects.filter(question_id=qid)
+                if qs.count() == 0:
+                    return True
+                else:
+                    return False
+            else:
+                return True
 
 
 class QuestionUserInline(admin.TabularInline):
@@ -43,7 +88,7 @@ class QuestionAdmin(admin.ModelAdmin):
         ('发布时间', {'fields': ['pub_date']}),
         ('投票时间段', {'fields': [('start_date', 'end_date')]}),
         ('投票票数设置', {'fields': [('min_select', 'max_select')]}),
-        ('用户', {'classes': ['collapse'], 'fields': ['user']}),
+        ('发布者', {'classes': ['collapse'], 'fields': ['user']}),
     ]
     inlines = [ChoiceInline, QuestionUserInline]
     list_display = ('questions', 'pubdate', 'was_published_recently','was_active','author_name')

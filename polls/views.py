@@ -112,10 +112,9 @@ def login(request):
             return HttpResponseRedirect(reverse('polls:login'))
 
 
-
-
 def list(request):
-    questions_list = Question.objects.filter(is_active=1, start_date__lte=timezone.now(),  end_date__gte=timezone.now())
+    #questions_list = Question.objects.filter(is_active=1, start_date__lte=timezone.now(),  end_date__gte=timezone.now())
+    questions_list = Question.objects.raw('select id,question_text,pub_date,is_active,user_id,end_date,max_select,min_select,start_date from polls_question pq where pq.id in (select question_id from polls_questionuser where id in (SELECT questionuser_id from polls_questionuser_user where user_id='+str(request.user.id)+')) and is_active=1 and start_date<=NOW()and end_date>=NOW()')
     paginator = Paginator(questions_list, 10) # 3 posts in each page
     page = request.GET.get('page')
     try:
@@ -126,7 +125,7 @@ def list(request):
     except EmptyPage:
     # If page is out of range deliver last page of results
         questions = paginator.page(paginator.num_pages)
-    return render(request,'polls/list.html',{'questions_list': questions})
+    return render(request,'polls/list.html', {'questions_list': questions})
 
 
 def polls_settings(request):
