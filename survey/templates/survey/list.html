@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}问卷调查详情页{% endblock %}
+{% load static %}
+<form class="form" action="{% url 'polls:list' %}" method="post">
+<link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+{% if questions_list %}
+    <ul>
+    {% block content %}
+        <h1>问卷调查列表</h1>
+        <table width="1000" border="1px solid #00AA88" cellspacing="0" cellpadding="1"><tr><td><label>问卷调查</label></td><td><label>起始时间</label></td><td><label>结束时间</label></td><tr>
+    {% for survey in surveys_list %}
+         <tr>
+        <td>
+        <li><a href="{% url 'survey:detail' survey.id %}">{{ survey.survey_text }}</a></li>
+        </td>
+             <td><label>{{ survey.start_date }}</label></td>
+             <td><label>{{ survey.end_date }}</label></td></tr>
+    {% endfor %}
+        </table>
+        {% include "survey/pagination.html" with page=surveys_list %}
+    {% endblock %}
+    </ul>
+{% else %}
+    <p>未找到任何问卷调查.</p>
+{% endif %}
+</form>

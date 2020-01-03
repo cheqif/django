@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}我的回答{% endblock %}
+{% block content %}
+<h1>您已经完成问卷调查，以下是您的回答！</h1>
+<h1>{{ survey.survey_text }}</h1>
+<ul>
+{% for question in survey.surveyquestion_set.all %}
+    <h1>{{ question.question_text }}</h1>
+    {% for surveychoice in question.surveychoice_set.all %}
+            {% for surveyuserchoice in question.surveyuserchoice_set.all %}
+                {% if surveyuserchoice.user_id == request.user.id and surveyuserchoice.choice_id == surveychoice.id%}
+                    <li>{{ surveychoice.choice_text }} -- {{ 1 }} 票</li>
+                {% else %}
+                    {% if surveyuserchoice.user_id == request.user.id %}
+                        <li>{{ surveychoice.choice_text }} -- {{ 0 }} 票</li>
+                     {% endif %}
+                {% endif %}
+            {% endfor %}
+    {% endfor %}
+{% endfor %}
+</ul>
+
+<!--<a href="{% url 'survey:detail' survey.id %}">重新投票?</a>-->
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load survey_extras %}
+{% block title %}问卷调查详情页{% endblock %}
+{% block content %}
+<h1>{{ survey.survey_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form name="detailForm" action="{% url 'survey:vote' survey.id %}" method="post">
+{% csrf_token %}
+<input type="hidden" name="userid"  value={{ request.user.id }}>
+    <table>
+    {% for surveyquestion in survey.surveyquestion_set.all %}
+
+    <tr>
+        <td><label for="choice{{ forloop.counter }}">{{ surveyquestion.question_text }}</label></td>
+    </tr>
+        {% for surveychoice in surveyquestion.surveychoice_set.all %}
+            <tr>
+            {% if obj_list is not null %}
+                <td>
+                    <input type="checkbox" name="check_box_list{{ surveyquestion.id }}" id="choice{{ forloop.counter }}" value="{{ surveychoice.id }}"
+                            {% for key,value in obj_list.lists %}
+                                {%  if key|add_str:'' == 'check_box_list'|add_str:surveyquestion.id %}
+                                    {% for checkid in  value %}
+                                        {%  if checkid|add:'0' == surveychoice.id %}
+                                            checked="checked"
+                                        {% else %}
+
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor%}>
+                </td>
+                <td><label for="choice{{ forloop.counter }}">{{ surveychoice.choice_text }}</label></td>
+            {% else %}
+                <td><input type="checkbox" name="check_box_list{{ surveyquestion.id }}" id="choice{{ forloop.counter }}" value="{{ surveychoice.id }}"></td>
+                <td><label for="choice{{ forloop.counter }}">{{ surveychoice.choice_text }}</label></td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+    {% endfor %}
+    </table>
+<input type="submit" value="提交问卷">
+</form>
+    <a href="{% url 'survey:results' survey.id %}">查看问卷调查结果</a>
+    <br>
+    <a href="{% url 'survey:myresults' survey.id %}">我的回答</a>
+{% endblock %}

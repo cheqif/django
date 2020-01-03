@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}问卷调查详情页{% endblock %}
+{% block content %}
+<h1>您已经完成问卷调查，感谢您的参与！</h1>
+<h1>{{ survey.survey_text }}</h1>
+<ul>
+{% for question in survey.surveyquestion_set.all %}
+    <h1>{{ question.question_text }}</h1>
+    {% for surveychoice in question.surveychoice_set.all %}
+        <li>{{ surveychoice.choice_text }} -- {{ surveychoice.votes }} 票{{ surveychoice.votes|pluralize:"" }}</li>
+     {% endfor %}
+{% endfor %}
+</ul>
+
+<!--<a href="{% url 'survey:detail' survey.id %}">重新投票?</a>-->
+{% endblock %}
